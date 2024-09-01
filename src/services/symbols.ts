@@ -1,17 +1,11 @@
-import { FetchStockPeriodOptions } from '../types'
-import { StockApi } from './http-adapter'
+import { FetchSymbolHistoryParams } from '../types'
+import { Http } from './http-adapter'
 
-type FetchSymbolHistoryOptions = {
-  startTimestamp: number
-  endTimestamp: number
-  interval: FetchStockPeriodOptions
-}
-
-export async function getSymbolHistory(symbol: string, options: FetchSymbolHistoryOptions) {
+export async function getSymbolHistory(symbol: string, options: FetchSymbolHistoryParams) {
   const { interval, startTimestamp, endTimestamp } = options
-  return await new StockApi().get(`chart/${symbol}`, {
+  return await new Http().get(`symbols/${symbol}`, {
     interval,
-    period1: startTimestamp,
-    period2: endTimestamp
+    startTimestamp,
+    endTimestamp
   })
 }
