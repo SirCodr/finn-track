@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { getTrackProfit } from '../services/track-profit'
-import { FetchTrackProfitParams } from '../types'
+import { FetchTrackProfitParams, SymbolsHistoryResponse } from '../types'
 import DataTable from '../components/datatable'
 
 const SymbolsPage = () => {
@@ -11,7 +11,7 @@ const SymbolsPage = () => {
     endDate: '',
     interval: ''
   })
-  const [response, setResponse] = useState(null)
+  const [response, setResponse] = useState<SymbolsHistoryResponse | null >(null)
 
   function handleDataChange(inputName: string, value: unknown) {
     setData({
@@ -23,7 +23,6 @@ const SymbolsPage = () => {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const response = await getTrackProfit(symbol, data)
-    console.log({response});
     
     setResponse(response)
   }

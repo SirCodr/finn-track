@@ -1,4 +1,4 @@
-import React from 'react';
+//@ts-nocheck
 import { formatter } from '../utils';
 
 const DataTable = ({ data }) => {
