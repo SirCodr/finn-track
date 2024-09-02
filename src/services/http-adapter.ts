@@ -10,7 +10,7 @@ export class Http implements HttpInstance {
 
   constructor() {
     this.http = axios.create({
-      baseURL: import.meta.env.VITE_API_URL,
+      baseURL: import.meta.env.DEV ? import.meta.env.VITE_API_LOCAL_URL : import.meta.env.VITE_API_PROD_URL,
       headers: {
         'Content-Type': 'application/json',
       }
