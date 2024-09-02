@@ -16,8 +16,8 @@ export class Http implements HttpInstance {
       }
     })
   }
-  async get(url: string, params: Record<string, string|number>) {
-    return await this.http.get(url, {
+  async get<T>(url: string, params: Record<string, string|number>) {
+    return await this.http.get<T>(url, {
       params
     })
   }
