@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { getTrackProfit } from '../services/track-profit';
 import { FetchTrackProfitParams, SymbolsHistoryResponse } from '../types';
 import DataTable from '../components/datatable';
+import Spinner from '../components/spinner';
 
 const SymbolsPage = () => {
   const [symbol, setSymbol] = useState('VOO');
@@ -12,6 +13,7 @@ const SymbolsPage = () => {
     amount: 1
   });
   const [response, setResponse] = useState<SymbolsHistoryResponse | null>(null);
+  const [isLoading, setLoading] = useState(false)
 
   function handleDataChange(inputName: string, value: unknown) {
     setData({
@@ -21,10 +23,17 @@ const SymbolsPage = () => {
   }
 
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const response = await getTrackProfit(symbol, data);
-    
-    setResponse(response);
+    try {
+      e.preventDefault();
+      setLoading(true)
+      const response = await getTrackProfit(symbol, data);
+      
+      setResponse(response);
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -132,12 +141,14 @@ const SymbolsPage = () => {
         </div>
         <button
           type='submit'
-          className='w-full py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300'
+          className='w-full py-2.5 mb-4 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300'
+          disabled={isLoading}
         >
           Calcular
         </button>
+        {isLoading && <div className='w-full flex justify-center'><Spinner /></div>}
       </form>
-      {response && <DataTable data={response} />}
+      {response && !isLoading && <DataTable data={response} />}
     </>
   );
 };
