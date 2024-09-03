@@ -1,18 +1,17 @@
-import { FormEvent, useEffect, useState } from 'react';
-import { getTrackProfit } from '../services/track-profit';
-import { FetchTrackProfitParams, TrackProfitResponse } from '../types';
-import SymbolsDatatable from '../components/symbol-datatable';
+import { FormEvent, useState } from 'react';
+import { FetchSavingsParams, SavingsResponse } from '../types';
 import Spinner from '../components/spinner';
+import { getSavingsProfit } from '../services/savings';
+import SavingsDatatable from '../components/savings-datatable';
 
-const SymbolsPage = () => {
-  const [symbol, setSymbol] = useState('VOO');
-  const [data, setData] = useState<FetchTrackProfitParams>({
-    currency: 'COP=X',
-    startDate: '2023-08-01',
-    endDate: '2024-09-01',
-    amount: 1
+const SavingsPage = () => {
+  const [data, setData] = useState<FetchSavingsParams>({
+    initialAmount: 3000000,
+    months: 12,
+    annualInterestPercentage: 13,
+    monthlyAmount: 1000000
   });
-  const [response, setResponse] = useState<TrackProfitResponse | null>(null);
+  const [response, setResponse] = useState<SavingsResponse | null>(null);
   const [isLoading, setLoading] = useState(false)
 
   function handleDataChange(inputName: string, value: unknown) {
@@ -26,7 +25,7 @@ const SymbolsPage = () => {
     try {
       e.preventDefault();
       setLoading(true)
-      const response = await getTrackProfit(symbol, data);
+      const response = await getSavingsProfit(data);
       
       setResponse(response);
     } catch (error) {
@@ -36,107 +35,85 @@ const SymbolsPage = () => {
     }
   }
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
-
   return (
     <>
       <form className='max-w-md mx-auto p-4 bg-white rounded-lg shadow-md sm:p-6' onSubmit={handleSubmit}>
         <div className='mb-4'>
           <label
-            htmlFor='symbol'
+            htmlFor='initialAmount'
             className='block mb-2 text-sm font-medium text-gray-900'
           >
-            Symbol
+            Initial Amount
           </label>
           <input
-            type='text'
-            name='symbol'
-            id='symbol'
-            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
-            placeholder='VOO'
-            onInput={(e) => setSymbol(e.currentTarget.value)}
-            value={symbol}
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='currency'
-            className='block mb-2 text-sm font-medium text-gray-900'
-          >
-            Currency
-          </label>
-          <input
-            type='text'
-            name='currency'
-            id='currency'
+            type='number'
+            name='initialAmount'
+            id='initialAmount'
             className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 uppercase'
             placeholder='USD'
             onInput={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
-            value={data.currency}
+            value={data.initialAmount}
             required
           />
         </div>
         <div className='mb-4'>
           <label
-            htmlFor='start-date'
+            htmlFor='months'
             className='block mb-2 text-sm font-medium text-gray-900'
           >
-            Start Date
-          </label>
-          <input
-            type='date'
-            name='startDate'
-            id='start-date'
-            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
-            onChange={(e) =>
-              handleDataChange(e.currentTarget.name, e.currentTarget.value)
-            }
-            value={data.startDate}
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='end-date'
-            className='block mb-2 text-sm font-medium text-gray-900'
-          >
-            End Date
-          </label>
-          <input
-            type='date'
-            name='endDate'
-            id='end-date'
-            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
-            onChange={(e) =>
-              handleDataChange(e.currentTarget.name, e.currentTarget.value)
-            }
-            value={data.endDate}
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='amount'
-            className='block mb-2 text-sm font-medium text-gray-900'
-          >
-            Amount
+            Months
           </label>
           <input
             type='number'
-            name='amount'
-            id='amount'
+            name='months'
+            id='months'
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+            onChange={(e) =>
+              handleDataChange(e.currentTarget.name, e.currentTarget.value)
+            }
+            value={data.months}
+            required
+          />
+        </div>
+        <div className='mb-4'>
+          <label
+            htmlFor='annualInterestPercentage'
+            className='block mb-2 text-sm font-medium text-gray-900'
+          >
+            Annual Interest Percentage
+          </label>
+          <input
+            type='number'
+            name='annualInterestPercentage'
+            id='annualInterestPercentage'
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+            onChange={(e) =>
+              handleDataChange(e.currentTarget.name, e.currentTarget.value)
+            }
+            value={data.annualInterestPercentage}
+            required
+          />
+        </div>
+        <div className='mb-4'>
+          <label
+            htmlFor='monthlyAmount'
+            className='block mb-2 text-sm font-medium text-gray-900'
+          >
+            Monthly Amount
+          </label>
+          <input
+            type='number'
+            name='monthlyAmount'
+            id='monthlyAmount'
             className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
             placeholder='1'
             onInput={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
             required
-            value={data.amount}
+            value={data.monthlyAmount}
           />
         </div>
         <button
@@ -148,9 +125,9 @@ const SymbolsPage = () => {
         </button>
         {isLoading && <div className='w-full flex justify-center'><Spinner /></div>}
       </form>
-      {response && !isLoading && <SymbolsDatatable data={response} />}
+      {response && !isLoading && <SavingsDatatable data={response} />}
     </>
   );
 };
 
-export default SymbolsPage;
+export default SavingsPage;

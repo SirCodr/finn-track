@@ -38,3 +38,22 @@ export interface Meta {
     basecurrency:          string;
     quoteCurrency:         string;
 }
+//  
+
+export type FetchSavingsParams = {
+    initialAmount: number
+    months: number
+    annualInterestPercentage: number
+    monthlyAmount: number
+}
+
+export interface MonthlyData {
+  accNonProfitAmount: number;
+  accumulatedAmount: number;
+  profitAmount: number;
+  accProfitAmount: number;
+}
+
+export interface SavingsResponse {
+  [key: string]: MonthlyData;
+}

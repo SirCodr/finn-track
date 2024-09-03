@@ -5,7 +5,7 @@ type Props = {
   data: TrackProfitResponse
 }
 
-const DataTable = ({ data }: Props) => {
+const SymbolsDatatable = ({ data }: Props) => {
   const { history, finalDateData, meta } = data;
 
   return (
@@ -122,4 +122,4 @@ const DataTable = ({ data }: Props) => {
   );
 };
 
-export default DataTable;
+export default SymbolsDatatable;
