@@ -1,43 +1,43 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { getTrackProfit } from '../services/track-profit'
-import { FetchTrackProfitParams, SymbolsHistoryResponse } from '../types'
-import DataTable from '../components/datatable'
+import { FormEvent, useEffect, useState } from 'react';
+import { getTrackProfit } from '../services/track-profit';
+import { FetchTrackProfitParams, SymbolsHistoryResponse } from '../types';
+import DataTable from '../components/datatable';
 
 const SymbolsPage = () => {
-  const [symbol, setSymbol] = useState('')
+  const [symbol, setSymbol] = useState('VOO');
   const [data, setData] = useState<FetchTrackProfitParams>({
-    currency: '',
-    startDate: '',
-    endDate: '',
-    interval: ''
-  })
-  const [response, setResponse] = useState<SymbolsHistoryResponse | null >(null)
+    currency: 'COP=X',
+    startDate: '2023-08-01',
+    endDate: '2024-09-01',
+    amount: 1
+  });
+  const [response, setResponse] = useState<SymbolsHistoryResponse | null>(null);
 
   function handleDataChange(inputName: string, value: unknown) {
     setData({
       ...data,
       [inputName]: value
-    })
+    });
   }
 
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    const response = await getTrackProfit(symbol, data)
+    e.preventDefault();
+    const response = await getTrackProfit(symbol, data);
     
-    setResponse(response)
+    setResponse(response);
   }
 
   useEffect(() => {
-    console.log({ data })
-  }, [data])
+    console.log({ data });
+  }, [data]);
 
   return (
     <>
-      <form className='max-w-sm mx-auto' onSubmit={handleSubmit}>
-        <div className='mb-5'>
+      <form className='max-w-md mx-auto p-4 bg-white rounded-lg shadow-md sm:p-6' onSubmit={handleSubmit}>
+        <div className='mb-4'>
           <label
             htmlFor='symbol'
-            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            className='block mb-2 text-sm font-medium text-gray-900'
           >
             Symbol
           </label>
@@ -45,16 +45,17 @@ const SymbolsPage = () => {
             type='text'
             name='symbol'
             id='symbol'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 uppercase'
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
             placeholder='VOO'
             onInput={(e) => setSymbol(e.currentTarget.value)}
+            value={symbol}
             required
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-4'>
           <label
             htmlFor='currency'
-            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            className='block mb-2 text-sm font-medium text-gray-900'
           >
             Currency
           </label>
@@ -62,18 +63,19 @@ const SymbolsPage = () => {
             type='text'
             name='currency'
             id='currency'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 uppercase'
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 uppercase'
             placeholder='USD'
             onInput={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
+            value={data.currency}
             required
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-4'>
           <label
             htmlFor='start-date'
-            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            className='block mb-2 text-sm font-medium text-gray-900'
           >
             Start Date
           </label>
@@ -81,18 +83,18 @@ const SymbolsPage = () => {
             type='date'
             name='startDate'
             id='start-date'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            placeholder=''
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
             onChange={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
+            value={data.startDate}
             required
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-4'>
           <label
             htmlFor='end-date'
-            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            className='block mb-2 text-sm font-medium text-gray-900'
           >
             End Date
           </label>
@@ -100,44 +102,44 @@ const SymbolsPage = () => {
             type='date'
             name='endDate'
             id='end-date'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            placeholder=''
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
             onChange={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
+            value={data.endDate}
             required
           />
         </div>
-        <div className='mb-5'>
+        <div className='mb-4'>
           <label
-            htmlFor='interval'
-            className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            htmlFor='amount'
+            className='block mb-2 text-sm font-medium text-gray-900'
           >
-            Interval
+            Amount
           </label>
           <input
-            type='text'
-            name='interval'
-            id='interval'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            placeholder='1month'
+            type='number'
+            name='amount'
+            id='amount'
+            className='w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+            placeholder='1'
             onInput={(e) =>
               handleDataChange(e.currentTarget.name, e.currentTarget.value)
             }
             required
-            defaultValue='1mo'
+            value={data.amount}
           />
         </div>
         <button
           type='submit'
-          className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+          className='w-full py-2.5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300'
         >
-          Submit
+          Calcular
         </button>
       </form>
       {response && <DataTable data={response} />}
     </>
-  )
-}
+  );
+};
 
-export default SymbolsPage
+export default SymbolsPage;

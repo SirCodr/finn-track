@@ -14,7 +14,7 @@ export type FetchTrackProfitParams = {
   currency: string
   startDate: string
   endDate: string
-  interval: string
+  amount: number
 }
 
 // 
