@@ -1,15 +1,3 @@
-export interface ApiResponseType {
-    values: SymbolResponseType[]
-}
-
-export interface SymbolResponseType {
-    datetime: Date;
-    open:     string;
-    high:     string;
-    low:      string;
-    close:    string;
-}
-
 export type FetchTrackProfitParams = {
   currency: string
   startDate: string
@@ -17,75 +5,36 @@ export type FetchTrackProfitParams = {
   amount: number
 }
 
-// 
-
-export interface SymbolsHistoryResponse {
-    chart: SymbolsHistoryChart;
+export interface TrackProfitResponse {
+    meta:          Meta;
+    history:       { [key: string]: History };
+    finalDateData: FinalDateData;
 }
 
-export interface SymbolsHistoryChart {
-    result: SymbolsHistoryData[];
-    error:  null;
+export interface FinalDateData {
+    symbolValuation:          number;
+    quoteCurrency:            number;
+    availableSymbolValuation: number;
+    availableQuoteCurrency:   number;
+    potentialSymbolValuation: number;
+    potentialQuoteCurrency:   number;
+    symbolValuationProfit:    number;
+    quoteCurrencyProfit:      number;
+    profitPercentage:         number;
 }
 
-export interface SymbolsHistoryData {
-    meta:       SymbolsHistoryMeta;
-    timestamp:  number[];
-    indicators: SymbolsHistoryIndicators;
+export interface History {
+    symbolValuation:                     number;
+    quoteCurrency:                       number;
+    symbolValueInQuoteCurrency:          number;
+    symbolValuationPerAmount:            number;
+    symbolValueInQuoteCurrencyPerAmount: number;
 }
 
-export interface SymbolsHistoryIndicators {
-    quote: SymbolsHistoryQuote[];
-}
-
-export interface SymbolsHistoryQuote {
-    open:   number[];
-    high:   number[];
-    low:    number[];
-    volume: number[];
-    close:  number[];
-}
-
-export interface SymbolsHistoryMeta {
-    currency:             string;
-    symbol:               string;
-    exchangeName:         string;
-    fullExchangeName:     string;
-    instrumentType:       string;
-    firstTradeDate:       number;
-    regularMarketTime:    number;
-    hasPrePostMarketData: boolean;
-    gmtoffset:            number;
-    timezone:             string;
-    exchangeTimezoneName: string;
-    regularMarketPrice:   number;
-    fiftyTwoWeekHigh:     number;
-    fiftyTwoWeekLow:      number;
-    regularMarketDayHigh: number;
-    regularMarketDayLow:  number;
-    regularMarketVolume:  number;
-    longName:             string;
-    shortName:            string;
-    chartPreviousClose:   number;
-    previousClose:        number;
-    scale:                number;
-    priceHint:            number;
-    currentTradingPeriod: CurrentTradingPeriod;
-    tradingPeriods:       Array<Post[]>;
-    dataGranularity:      string;
-    range:                string;
-    validRanges:          string[];
-}
-
-export interface CurrentTradingPeriod {
-    pre:     Post;
-    regular: Post;
-    post:    Post;
-}
-
-export interface Post {
-    timezone:  string;
-    start:     number;
-    end:       number;
-    gmtoffset: number;
+export interface Meta {
+    symbol:                string;
+    symbolsAmountPerMonth: string;
+    countOfSymbols:        number;
+    basecurrency:          string;
+    quoteCurrency:         string;
 }

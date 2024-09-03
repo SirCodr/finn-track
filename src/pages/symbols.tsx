@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { getTrackProfit } from '../services/track-profit';
-import { FetchTrackProfitParams, SymbolsHistoryResponse } from '../types';
+import { FetchTrackProfitParams, TrackProfitResponse } from '../types';
 import DataTable from '../components/datatable';
 import Spinner from '../components/spinner';
 
@@ -12,7 +12,7 @@ const SymbolsPage = () => {
     endDate: '2024-09-01',
     amount: 1
   });
-  const [response, setResponse] = useState<SymbolsHistoryResponse | null>(null);
+  const [response, setResponse] = useState<TrackProfitResponse | null>(null);
   const [isLoading, setLoading] = useState(false)
 
   function handleDataChange(inputName: string, value: unknown) {

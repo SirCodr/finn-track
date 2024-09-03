@@ -1,7 +1,11 @@
-//@ts-nocheck
+import { TrackProfitResponse } from '../types';
 import { copFormatter, usdFormatter } from '../utils';
 
-const DataTable = ({ data }) => {
+type Props = {
+  data: TrackProfitResponse
+}
+
+const DataTable = ({ data }: Props) => {
   const { history, finalDateData, meta } = data;
 
   return (
@@ -45,7 +49,7 @@ const DataTable = ({ data }) => {
             <th className="py-3 px-4 text-left text-gray-600">Valor del Símbolo (USD)</th>
             <th className="py-3 px-4 text-left text-gray-600">Tasa de Cambio (COP/USD)</th>
             <th className="py-3 px-4 text-left text-gray-600">Valor en Moneda (COP)</th>
-            {meta.symbolsAmountPerMonth != 1 && (
+            {meta.symbolsAmountPerMonth !== '1' && (
               <>
                 <th className="py-3 px-4 text-left text-gray-600">Valor del Símbolo por Monto (USD)</th>
                 <th className="py-3 px-4 text-left text-gray-600">Valor en Moneda por Monto (COP)</th>
@@ -57,13 +61,13 @@ const DataTable = ({ data }) => {
           {Object.entries(history).map(([date, values]) => (
             <tr key={date}>
               <td className="py-2 px-4 border-b border-gray-200">{date}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(values.symbolValuation?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(values.symbolValuation.toFixed(2)))}</td>
               <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(values.quoteCurrency)}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(values.symbolValueInQuoteCurrency?.toFixed(2))}</td>
-              {meta.symbolsAmountPerMonth != 1 && (
+              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(Number(values.symbolValueInQuoteCurrency?.toFixed(2)))}</td>
+              {meta.symbolsAmountPerMonth !== '1' && (
                 <>
-                  <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(values.symbolValuationPerAmount?.toFixed(2))}</td>
-                  <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(values.symbolValueInQuoteCurrencyPerAmount?.toFixed(2))}</td>
+                  <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(values.symbolValuationPerAmount?.toFixed(2)))}</td>
+                  <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(Number(values.symbolValueInQuoteCurrencyPerAmount?.toFixed(2)))}</td>
                 </>
               )}
             </tr>
@@ -77,7 +81,7 @@ const DataTable = ({ data }) => {
           <tbody>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Valor del Símbolo Final (USD):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(finalDateData.symbolValuation?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(finalDateData.symbolValuation?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Tasa de Cambio Final (COP/USD):</td>
@@ -85,27 +89,27 @@ const DataTable = ({ data }) => {
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Total Valor Disponible del Símbolo (USD):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(finalDateData.availableSymbolValuation?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(finalDateData.availableSymbolValuation?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Total Valor Disponible en Moneda (COP):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(finalDateData.availableQuoteCurrency?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(Number(finalDateData.availableQuoteCurrency?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Valor Potencial del Símbolo (USD):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(finalDateData.potentialSymbolValuation?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(finalDateData.potentialSymbolValuation?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Valor Potencial en Moneda (COP):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(finalDateData.potentialQuoteCurrency?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(Number(finalDateData.potentialQuoteCurrency?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Ganancia por Valor del Símbolo (USD):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(finalDateData.symbolValuationProfit?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usdFormatter.format(Number(finalDateData.symbolValuationProfit?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Ganancia por Tasa de Cambio (COP):</td>
-              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(finalDateData.quoteCurrencyProfit?.toFixed(2))}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{copFormatter.format(Number(finalDateData.quoteCurrencyProfit?.toFixed(2)))}</td>
             </tr>
             <tr>
               <td className="py-2 px-4 border-b border-gray-200 font-medium">Porcentaje de Ganancia:</td>
