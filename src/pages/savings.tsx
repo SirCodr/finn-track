@@ -3,6 +3,7 @@ import { FetchSavingsParams, SavingsResponse } from '../types';
 import Spinner from '../components/spinner';
 import { getSavingsProfit } from '../services/savings';
 import SavingsDatatable from '../components/savings-datatable';
+import Layout from '../layout';
 
 const SavingsPage = () => {
   const [data, setData] = useState<FetchSavingsParams>({
@@ -36,7 +37,7 @@ const SavingsPage = () => {
   }
 
   return (
-    <>
+    <Layout title='Compound savings'>
       <form className='max-w-md mx-auto p-4 bg-white rounded-lg shadow-md sm:p-6' onSubmit={handleSubmit}>
         <div className='mb-4'>
           <label
@@ -126,7 +127,7 @@ const SavingsPage = () => {
         {isLoading && <div className='w-full flex justify-center'><Spinner /></div>}
       </form>
       {response && !isLoading && <SavingsDatatable data={response} />}
-    </>
+    </Layout>
   );
 };
 

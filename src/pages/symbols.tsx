@@ -1,8 +1,9 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { getTrackProfit } from '../services/track-profit';
 import { FetchTrackProfitParams, TrackProfitResponse } from '../types';
 import SymbolsDatatable from '../components/symbol-datatable';
 import Spinner from '../components/spinner';
+import Layout from '../layout';
 
 const SymbolsPage = () => {
   const [symbol, setSymbol] = useState('VOO');
@@ -36,12 +37,8 @@ const SymbolsPage = () => {
     }
   }
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
-
   return (
-    <>
+    <Layout title='Symbol profit'>
       <form className='max-w-md mx-auto p-4 bg-white rounded-lg shadow-md sm:p-6' onSubmit={handleSubmit}>
         <div className='mb-4'>
           <label
@@ -149,7 +146,7 @@ const SymbolsPage = () => {
         {isLoading && <div className='w-full flex justify-center'><Spinner /></div>}
       </form>
       {response && !isLoading && <SymbolsDatatable data={response} />}
-    </>
+    </Layout>
   );
 };
 
